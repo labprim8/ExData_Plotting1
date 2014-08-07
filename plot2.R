@@ -1,0 +1,16 @@
+## read in file
+power <- read.table("household_power_consumption.txt", header=T, sep=";", na.strings="?", stringsAsFactors=F)
+## create a new column to hold the correct date time
+power$dateTime <- strptime(paste(power$dateTime), format="%d/%m/%Y %H:%M:%S")
+##subset the data to show only 01/02/2007 and 02/02/2007
+subset <- subset(power, power$dateTime < "2007-02-03" & power$dateTime >= "2007-02-01" )
+
+## create the destination device
+png(file="plot2.png")
+
+## create an empty plot with the headers and axis lables
+plot(subset$dateTime, subset$Global_active_power, type = "n", ylab="Global Active Power (kilowatts)", xlab="")
+##plot the lines 
+lines(subset$dateTime, subset$Global_active_power)
+
+dev.off()
